@@ -8,7 +8,7 @@ library(RColorBrewer)
 library(data.table); library(dplyr); library(tidyr)
 library(lubridate)
 
-wide_raw <- fread("C:/Users/cmc/Documents/GitHub/NHIS_AssociationRules/data/0710_como_network_out.csv")
+wide_raw <- fread("") #Private data
 
 
 sm.names<-c("mi_yes", "pvd_yes", "cd_yes", "dem_yes", "hp_yes"
