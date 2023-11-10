@@ -1,0 +1,4 @@
+- source: project
+  quarto-pub:
+    - id: 17a20ef3-dbea-4177-b508-6b535744c631
+      url: 'https://seuljimoon.quarto.pub/associationrules'

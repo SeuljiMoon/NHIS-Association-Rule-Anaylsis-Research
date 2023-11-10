@@ -1,0 +1,37 @@
+[
+  {
+    "objectID": "q4.html",
+    "href": "q4.html",
+    "title": "02. Association rule analysis",
+    "section": "",
+    "text": "Association rule analysis\nRef : tistory"
+  },
+  {
+    "objectID": "q2.html",
+    "href": "q2.html",
+    "title": "Chord Diagram",
+    "section": "",
+    "text": "Draw chordDiagram - Multiple myeloma patients and Controls"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Multiple Myeloma Association Rules Analysis",
+    "section": "",
+    "text": "국민건강보험공단(Korea National Health Insurance Service) 맞춤형 연구자료를 이용하여\n다발골수종(Multiple Myeloma) 환자의 진단 후 발병 질환에 대한 관련성 분석 (Association Rules Analysis)\n\n1. ChordDiagram\nA chord diagram is a graphical method of displaying the inter-relationships between data in a matrix.\nThe data are arranged radially around a circle with the relationships between the data points typically drawn as arcs connecting the data.\nRef : Wikipedia\n\n\n\n2. Association rules\nhttps://rfriend.tistory.com/m/category/R%20%EB%B6%84%EC%84%9D%EA%B3%BC%20%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D/R%20%EC%97%B0%EA%B4%80%EA%B7%9C%EC%B9%99%28Association%20Rule%29"
+  },
+  {
+    "objectID": "q1.html",
+    "href": "q1.html",
+    "title": "01. Baseline characteristics",
+    "section": "",
+    "text": "Flow-diagram\n\n\n\n\n\nBaseline demographics table\n\n\n\n\n\n\n  \n    \n    \n      Variables\n      N\n      Overall, N = 155,9681\n      \n        Multiple Myeloma n/y\n      \n      p-value2\n    \n    \n      0, N = 138,3461\n      1, N = 17,6221\n    \n  \n  \n    Sex\n155,968\n\n\n\n&gt;0.9\n        0\n\n71,334 (46%)\n63,277 (46%)\n8,057 (46%)\n\n        1\n\n84,634 (54%)\n75,069 (54%)\n9,565 (54%)\n\n    Age\n155,968\n67 (11)\n67 (11)\n67 (11)\n0.8\n    Age Category\n155,968\n\n\n\n&gt;0.9\n        1\n\n39,661 (25%)\n35,197 (25%)\n4,464 (25%)\n\n        2\n\n46,152 (30%)\n40,942 (30%)\n5,210 (30%)\n\n        3\n\n49,695 (32%)\n44,055 (32%)\n5,640 (32%)\n\n        4\n\n20,460 (13%)\n18,152 (13%)\n2,308 (13%)\n\n    Socioeconomic status\n155,968\n\n\n\n&lt;0.001\n        1\n\n23,651 (15%)\n20,442 (15%)\n3,209 (18%)\n\n        2\n\n132,317 (85%)\n117,904 (85%)\n14,413 (82%)\n\n    Death\n155,968\n\n\n\n&lt;0.001\n        0\n\n135,816 (87%)\n128,381 (93%)\n7,435 (42%)\n\n        1\n\n20,152 (13%)\n9,965 (7.2%)\n10,187 (58%)\n\n    Follow-up time\n155,968\n4.38 (0.00, 12.26)\n4.70 (0.00, 12.26)\n2.07 (0.01, 11.93)\n&lt;0.001\n  \n  \n  \n    \n      1 n (%); Mean (SD); Median (Range)\n    \n    \n      2 Pearson’s Chi-squared test; Wilcoxon rank sum test"
+  },
+  {
+    "objectID": "q3.html",
+    "href": "q3.html",
+    "title": "01. Exploration Data",
+    "section": "",
+    "text": "1. Summary comorbidities Matrix transactions\n: Multiple Myeloma 환자 (Case) 군과 매칭된 건강한 대조군 (Control) 의 index date 이후 발병질환에 대한 관련성 분석을 합니다. Association rules을 찾기 전에, transactions에 대해 탐색적 분석을 진행하였습니다.\n\nDensity (밀도) : 전체 rows*columns 개의 cell 중에서 얼마나 많은 cell이 채워져있는지에 대한 비율\nMost frequency : 빈도가 가장 많은 top5의 질환명과 그 빈도\nElement length distribution : 몇개의 동반질환들을 가지고 있는지에 대한 빈도\n\n\n\n\n\n\n\nExploratory Data Table after years\n\n\nCase\n \nControl\n\n\n\n\nMatrix\n\n\nRows\n17622\n \nRows\n138346\n\n\ncolumns\n14\n \ncolumns\n14\n\n\nDensity\n\n\n\n0.099\n \n\n0.097\n\n\nMost Frequency\n\n\nCancer\n3589\n \nCPD\n30512\n\n\nCPD\n3552\n \nPUD\n24717\n\n\nPUD\n2816\n \nLiver\n24128\n\n\nLiver\n2744\n \nDiabetes\n21719\n\n\nDiabetes\n2686\n \nPVD\n20130\n\n\n(Other)\n9127\n \n(Other)\n66681\n\n\nElenmet Length Distribution\n\n\n0\n5784\n \n0\n54356\n\n\n1\n5084\n \n1\n33485\n\n\n2\n3356\n \n2\n22200\n\n\n3\n1864\n \n3\n13843\n\n\n4\n900\n \n4\n7796\n\n\n5\n406\n \n5\n4017\n\n\n6\n138\n \n6\n1708\n\n\n7\n61\n \n7\n655\n\n\n8\n23\n \n8\n221\n\n\n9\n3\n \n9\n48\n\n\n10\n\n \n10\n\n\n\n\n\n \n11\n\n\n\n\n\n\n\n\n\nExploratory Data Table after 2 years\n\n\nCase\n \nControl\n\n\n\n\nMatrix\n\n\nRows\n17622\n \nRows\n138346\n\n\ncolumns\n14\n \ncolumns\n13\n\n\nDensity\n\n\n\n0.059\n \n\n0.029\n\n\nMost Frequency\n\n\nCancer\n2551\n \nCPD\n9125\n\n\nPUD\n1881\n \nPUD\n8067\n\n\nCPD\n1840\n \nLiver\n7190\n\n\nLiver\n1597\n \nDiabetes\n6186\n\n\nDiabetes\n1538\n \nPVD\n5682\n\n\n(Other)\n5100\n \n(Other)\n16638\n\n\nElenmet Length Distribution\n\n\n0\n8130\n \n0\n97651\n\n\n1\n5884\n \n1\n30912\n\n\n2\n2550\n \n2\n7799\n\n\n3\n777\n \n3\n1619\n\n\n4\n220\n \n4\n316\n\n\n5\n56\n \n5\n39\n\n\n6\n3\n \n6\n9\n\n\n7\n2\n \n8\n1\n\n\n\n\n \n\n\n\n\n\n\n \n\n\n\n\n\n\n\n\n\n\n\n\nExploratory Data Table after 4 years\n\n\nCase\n \nControl\n\n\n\n\nMatrix\n\n\nRows\n17622\n \nRows\n138346\n\n\ncolumns\n14\n \ncolumns\n14\n\n\nDensity\n\n\n\n0.082\n \n\n0.055\n\n\nMost Frequency\n\n\nCancer\n3173\n \nCPD\n18521\n\n\nCPD\n2922\n \nPUD\n15646\n\n\nPUD\n2436\n \nLiver\n14178\n\n\nLiver\n2241\n \nDiabetes\n12448\n\n\nDiabetes\n2180\n \nPVD\n11513\n\n\n(Other)\n7226\n \n(Other)\n34752\n\n\nElenmet Length Distribution\n\n\n0\n6402\n \n0\n71539\n\n\n1\n5610\n \n1\n39333\n\n\n2\n3346\n \n2\n18133\n\n\n3\n1496\n \n3\n6669\n\n\n4\n530\n \n4\n2064\n\n\n5\n179\n \n5\n475\n\n\n6\n45\n \n6\n112\n\n\n7\n10\n \n7\n19\n\n\n8\n3\n \n8\n2\n\n\n9\n1\n \n\n\n\n\n\n\n\n\n\n\nExploratory Data Table after 6 years\n\n\nCase\n \nControl\n\n\n\n\nMatrix\n\n\nRows\n17622\n \nRows\n138346\n\n\ncolumns\n14\n \ncolumns\n14\n\n\nDensity\n\n\n\n0.092\n \n\n0.076\n\n\nMost Frequency\n\n\nCancer\n3430\n \nCPD\n24893\n\n\nCPD\n3338\n \nPUD\n20424\n\n\nPUD\n2657\n \nLiver\n19103\n\n\nLiver\n2535\n \nDiabetes\n16926\n\n\nDiabetes\n2502\n \nPVD\n15746\n\n\n(Other)\n8321\n \n(Other)\n49178\n\n\nElenmet Length Distribution\n\n\n0\n5927\n \n0\n60164\n\n\n1\n5330\n \n1\n37788\n\n\n2\n3413\n \n2\n22443\n\n\n3\n1777\n \n3\n11140\n\n\n4\n757\n \n4\n4629\n\n\n5\n287\n \n5\n1595\n\n\n6\n91\n \n6\n449\n\n\n7\n34\n \n7\n117\n\n\n8\n5\n \n8\n17\n\n\n9\n1\n \n9\n4\n\n\n\n\n\n\n\n\n2. Comorbidities Frequency barplot"
+  }
+]

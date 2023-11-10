@@ -1,0 +1,130 @@
+---
+title: "Association_Rules"
+author: "SeuljiMoon"
+date: "2023-08-18"
+output: 
+  html_document: 
+    toc: yes
+---
+
+연관관계 분석을 위한 package 설치
+
+```{r echo=T , message=F}
+if(!require("arules")) install.packages("arules")
+if(!require("arulesViz")) install.packages("arules")
+if(!require("visNetwork")) install.packages("visNetwork")
+if(!require("igraph")) install.packages("igraph")
+```
+
+library setup
+```{r}
+library(arules)
+library(arulesViz)
+library(visNetwork)
+library(igraph) 
+library(data.table); library(dplyr)
+```
+
+Read dataset
+```{r}
+setwd("C:/Users/cmc/Documents/GitHub/NHIS_AssociationRules")
+wide_raw <- fread("data/0710_como_network_out.csv")
+
+head(wide_raw)
+```
+
+Split dataset
+comorbidities status 2-years after multiple myeloma diagnosis
+
+```{r}
+sm.names<-c("mi_yes", "pvd_yes", "cd_yes", "dem_yes", "hp_yes"
+            ,"im_yes", "cpd_yes", "chf_yes", "pud_yes", "mld_yes"
+            , "rd_yes", "dia_yes", "cancer_yes", "aids_yes")
+
+cci.names <- c("MI", "PVD", "CVD", "Dementia", "Plegia", "IM",
+               "CPD", "CHF", "PUD", "Liver",
+               "RD","Diabetes", "Cancer", "AIDS")
+
+wide_raw_after <- wide_raw %>% select(INDI_DSCM_NO, c90_yn, sex,
+                                      age, ageg4, insu_g2
+                                      , paste0(sm.names)
+                                      , death, surv_years)
+```
+
+change colnames
+```{r}
+colnames(wide_raw_after) <- c("ID","c90_yn","sex","age", "ageg4", "insu_g2",
+                              cci.names,
+                              "death", "surv_years")
+```
+
+dataframe 을 transaction type으로 변환
+
+1. Multiple myeloma 환자에 대해서만 분석
+```{r}
+a <- wide_raw_after |> filter(c90_yn==1)
+trans <- a
+row.id <- a[ , 1]
+trans <- a[, c(7:20)]
+trans <- as.data.frame(sapply(trans,as.logical)) 
+
+transdf <- as(trans, "transactions")
+
+transdf
+summary(transdf)
+```
+check top comorbidities frequency using histogram
+```{r}
+itemFrequencyPlot(transdf,
+                  type="relative",
+                  topN=10, # can be changed to the number of interest
+                  horiz=TRUE,
+                  col='pink',
+                  xlab='',
+                  main='CCI frequency, relative')
+
+
+itemFrequencyPlot(transdf,
+                  type="absolute",
+                  topN=14,
+                  horiz=TRUE,
+                  col='pink',
+                  xlab='',
+                  main='CCI frequency, absolute')
+```
+
+make simple contingency table 
+```{r}
+tbl <- crossTable(transdf)
+tbl <- crossTable(transdf, sort=TRUE)
+
+crossTable(transdf, measure='lift',sort=T)
+
+```
+
+Association rules modeling
+
+search for rules : support, confidence 적절한 threshold 설정
+```{r}
+rules <- apriori(transdf,
+                 parameter = list(support=.0006,
+                                  confidence=.50,
+                                  #minlen=2,
+                                  target='rules' # to mine for rules
+                 ))
+
+summary(rules)
+```
+총 350개의 rule 확인 가능
+```{r}
+quality(rules)$chi <- interestMeasure(rules, measure='chi', significance=T, transdf)
+inspect(sort(rules, by='lift', decreasing = T)[1:40])
+```
+
+Network plot 시각화
+```{r}
+## 시각화
+plot(rules, method="graph", control=list(type="items") )
+plot(rules, method = "grouped")
+```
+

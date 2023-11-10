@@ -1,0 +1,83 @@
+---
+title: "Chord Diagram"
+execute: 
+  echo: false
+  warning: false
+format:
+  html:
+    html-math-method: katex
+    highlight-style: arrow-light
+    anchor-sections: true
+    smooth-scroll: true
+    css: styles.css
+---
+
+```{r global-options, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, warning=FALSE, message=FALSE)
+source("datasetting_q2.R")
+if(!require("gtsummary")) install.packages("gtsummary")
+library(arules)
+library(arulesViz)
+library(visNetwork)
+library(igraph) 
+library(data.table); library(dplyr); library(lubridate)
+library(gtsummary)
+```
+
+
+### Draw chordDiagram - Multiple myeloma patients and Controls
+```{r case chordDiagram}
+#| layout-ncol: 2
+#| fig-height: 5
+#| fig-align: center
+#| message: false
+#| warning: false
+
+for (i in c("", 2, 4, 6)) {
+nb.cols.case <- nrow(get(paste0("case_cross",i)))
+nb.cols.control <- nrow(get(paste0("control_cross",i)))
+mycolors.case <- colorRampPalette(brewer.pal(12, "Paired"))(nb.cols.case)
+mycolors.control <- colorRampPalette(brewer.pal(12, "Paired"))(nb.cols.control)
+
+chordDiagram(get(paste0("case_cross",i)), annotationTrack = "grid", preAllocateTracks = list(track.height = 0.1), 
+             grid.col = mycolors.case)
+title(main = paste0("Multiple Myeloma after ",i, " years"))
+circos.trackPlotRegion(track.index = 1, panel.fun = function(x, y) {
+  xlim = get.cell.meta.data("xlim")
+  xplot = get.cell.meta.data("xplot")
+  ylim = get.cell.meta.data("ylim")
+  sector.name = get.cell.meta.data("sector.index")
+  if(abs(xplot[2] - xplot[1]) < 10) {
+    circos.text(mean(xlim), ylim[1], sector.name, facing = "clockwise",
+                niceFacing = TRUE, adj = c(0, 0.5))
+  } else {
+    circos.text(mean(xlim), ylim[1], sector.name, facing = "inside",
+                niceFacing = TRUE, adj = c(0.5, 0))
+  }
+}, bg.border = NA)
+
+
+chordDiagram(get(paste0("control_cross",i)), annotationTrack = "grid", preAllocateTracks = list(track.height = 0.1), 
+             grid.col = mycolors.control)
+title(main = paste0("Control after ", i, " years"))
+circos.trackPlotRegion(track.index = 1, panel.fun = function(x, y) {
+  xlim = get.cell.meta.data("xlim")
+  xplot = get.cell.meta.data("xplot")
+  ylim = get.cell.meta.data("ylim")
+  sector.name = get.cell.meta.data("sector.index")
+  if(abs(xplot[2] - xplot[1]) < 10) {
+    circos.text(mean(xlim), ylim[1], sector.name, facing = "clockwise",
+                niceFacing = TRUE, adj = c(0, 0.5))
+  } else {
+    circos.text(mean(xlim), ylim[1], sector.name, facing = "inside",
+                niceFacing = TRUE, adj = c(0.5, 0))
+  }
+}, bg.border = NA)
+
+
+}
+```
+
+
+
+

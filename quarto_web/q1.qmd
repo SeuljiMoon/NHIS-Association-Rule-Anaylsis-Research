@@ -1,0 +1,57 @@
+---
+title: "01. Baseline characteristics"
+execute: 
+  echo: false
+  warning: false
+format:
+  html:
+    html-math-method: katex
+    highlight-style: arrow-light
+    anchor-sections: true
+    smooth-scroll: true
+    css: styles.css
+---
+
+```{r global-options, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, warning=FALSE, message=FALSE)
+source("datasetting_q1.R")
+if(!require("gtsummary")) install.packages("gtsummary")
+library(arules)
+library(arulesViz)
+library(visNetwork)
+library(igraph) 
+library(data.table); library(dplyr); library(lubridate)
+library(gtsummary)
+```
+
+### Flow-diagram
+<p align = "left"><img src = "image/flow_diagram.png" width = "500"></p>
+
+
+
+
+### Baseline demographics table
+
+```{r}
+wide_raw |> select(c(c90_yn, sex, age, ageg4, insu_g2, death, surv_years)) |> 
+            tbl_summary(by=c90_yn,
+                        type = list(c(age, surv_years) ~ "continuous", 
+                                    c(ageg4, sex, insu_g2, death) ~ "categorical"),
+                        label = list(age ~ "Age", ageg4 ~ "Age Category",
+                                    sex ~ "Sex", insu_g2 ~ "Socioeconomic status",
+                                    death ~ "Death", surv_years ~ "Follow-up time"),
+                        missing_text = "N/A",
+                        statistic = list(all_continuous() ~ "{mean} ({sd})",
+                               c(surv_years) ~ "{median} ({min}, {max})",
+                               all_categorical() ~ "{n} ({p}%)"),) |> 
+  add_p() |> 
+  add_n() |> 
+  add_overall() |> 
+  bold_labels() |>
+  bold_p(t = 0.05) |> 
+  italicize_levels () |> 
+  modify_header(label ~ "**Variables**") |> 
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Multiple Myeloma n/y**") 
+
+  
+```

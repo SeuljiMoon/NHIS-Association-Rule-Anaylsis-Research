@@ -1,0 +1,35 @@
+project: 
+  type: website
+  output-dir: docs
+
+website:
+  title: "Multiple Myeloma Association Rules analysis"
+  sidebar:
+    style: "docked"
+    contents:
+      - section: "Baseline characteristics"
+        contents:
+           - q1.qmd
+          # - .qmd
+          # - .qmd
+      - text: "---"
+      - section: "Visualization"
+        contents:
+           - q2.qmd
+          # - .qmd
+          # - .qmd
+      - text: "---"
+      - section: "R arules packages"
+        contents:
+           - q3.qmd
+           - q4.qmd
+          # - .qmd
+
+format: 
+  html:
+    embed-resources: true
+    page-layout: full
+    toc: false
+    css: styles.css
+    footer: footer.html
+

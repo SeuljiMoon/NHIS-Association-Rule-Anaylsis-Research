@@ -1,0 +1,140 @@
+---
+title: "01. Exploration Data"
+execute: 
+  echo: false
+  warning: false
+format:
+  html:
+    html-math-method: katex
+    highlight-style: arrow-light
+    anchor-sections: true
+    smooth-scroll: true
+    css: styles.css
+---
+
+```{r}
+library(arules)
+library(arulesViz)
+library(visNetwork)
+library(igraph) 
+library(data.table); library(dplyr)
+library(tibble); library(purrr)
+library(tidyr) 
+library(magrittr); library(htmlTable)
+source("datasetting_q3.R")
+```
+
+```{r results='asis'}
+#| message: false
+#| warning: false
+
+rectangularize <- function(df) {
+  max_len <- df %>%
+    map(unlist) %>%
+    lengths() %>%
+    max()
+
+  df %>%
+    map(unlist) %>%
+    map(~ `length<-`(., max_len)) %>%
+    bind_cols()
+  
+}
+
+
+for (i in c("",2,4,6)) {
+  case.set <- summary(get(paste0("trans.df.case",i)))
+  control.set <- summary(get(paste0("trans.df.control",i)))
+  
+  list.summary_case <- list(
+                          Total.Cell = case.set@Dim,
+                          Density = case.set@density,
+                          Most.Frequency = names(case.set@itemSummary),
+                          N = as.numeric(case.set@itemSummary[1:6]),
+                          Element.length = names(case.set@lengths),
+                          N = as.numeric(case.set@lengths[1:10]))
+  
+  list.summary_control <- list(
+                             Total.Cell = control.set@Dim,
+                             Density = control.set@density,
+                             Most.Frequency = names(control.set@itemSummary),
+                             N = as.numeric(control.set@itemSummary[1:6]),
+                             Element.length = names(control.set@lengths),
+                             N = as.numeric(control.set@lengths[1:10]))
+  
+  
+  a <- list(Case=list.summary_case, Control=list.summary_control)
+  
+  a <- tibble(
+    Case = list("Rows", "columns", " ",
+              names(case.set@itemSummary),
+              names(case.set@lengths)),
+    N.Case = list(as.numeric(case.set@Dim[1]),
+                  as.numeric(case.set@Dim[2]),
+                  round(case.set@density,3),
+                  as.numeric(case.set@itemSummary[1:6]),
+                  as.numeric(case.set@lengths[1:10])),
+    Control = list("Rows", "columns", " ",
+              names(control.set@itemSummary),
+              names(control.set@lengths)),
+    N.Control = list(as.numeric(control.set@Dim[1]),
+                     as.numeric(control.set@Dim[2]),
+                     round(control.set@density,3),
+                     as.numeric(control.set@itemSummary[1:6]),
+                     as.numeric(control.set@lengths[1:10])),
+    ) %>%
+    rectangularize()
+  
+  
+  colnames(a) <- NULL
+  assign(paste0("table_summary_",i) , a |> 
+    htmlTable(
+      rnames = FALSE,
+      tspanner = c("Matrix","Density", "Most Frequency", "Elenmet Length Distribution"),
+      n.tspanner = c(2,1,6),
+        cgroup = c("Case", "Control"),
+          n.cgroup = c(2,2),
+      caption  = paste0("Exploratory Data Table after ", i, " years")))
+ 
+  }
+
+```
+
+
+### 1. Summary comorbidities Matrix transactions
+ : Multiple Myeloma 환자 (Case) 군과 매칭된 건강한 대조군 (Control) 의 index date 이후 발병질환에 대한 관련성 분석을 합니다. 
+ Association rules을 찾기 전에, transactions에 대해 탐색적 분석을 진행하였습니다.  
+ 
+- Density (밀도) : 전체 rows*columns 개의 cell 중에서 얼마나 많은 cell이 채워져있는지에 대한 비율
+- Most frequency : 빈도가 가장 많은 top5의 질환명과 그 빈도
+- Element length distribution : 몇개의 동반질환들을 가지고 있는지에 대한 빈도
+
+```{r}
+#| layout-ncol: 2
+table_summary_
+table_summary_2
+table_summary_4
+table_summary_6
+```
+
+
+### 2. Comorbidities Frequency barplot
+```{r}
+#| layout-ncol: 2
+#| fig-align: center
+#| message: false
+#| warning: false
+
+
+for (i in c("",2,4,6)) {
+  case.set <- summary(get(paste0("trans.df.case",i)))
+  control.set <- summary(get(paste0("trans.df.control",i)))
+  
+  itemFrequencyPlot(get(paste0("trans.df.case",i)), topN = 30, main = paste0("Comorbidities frequency after ",i, "years - Case"))
+  itemFrequencyPlot(get(paste0("trans.df.control",i)), topN = 30, main = paste0("Comorbidities frequency after ",i," years - Control"))
+  
+}
+
+```
+
+
