@@ -5,7 +5,7 @@ library(visNetwork)
 library(igraph) 
 library(data.table); library(dplyr)
 
-wide_raw <- fread("C:/Users/cmc/Documents/GitHub/NHIS_AssociationRules/data/0710_como_network_out.csv")
+wide_raw <- fread("") #Private data
 
 head(wide_raw)
 
