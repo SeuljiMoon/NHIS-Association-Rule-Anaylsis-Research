@@ -1,6 +1,6 @@
 # NHIS Association Rule Anaylsis
-국민건강보험공단(Korea National Health Insurance Service) 맞춤형 연구자료를 이용하여 다발골수종(Multiple Myeloma) 환자의 진단 후 발병 질환에 대한 관련성 분석 (Association Rules)  
 
+An analysis of the association with diseases that occur after diagnosis in patients with multiple myeloma using customized research materials from the Korea National Health Insurance Service (NHIS) (Association Rules).
 
 
 ### 1. ChordDiagram 
