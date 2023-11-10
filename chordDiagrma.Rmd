@@ -32,8 +32,7 @@ library(data.table); library(dplyr); library(tidyr)
 
 Read dataset
 ```{r read dataset}
-setwd("C:/Users/cmc/Documents/GitHub/NHIS_AssociationRules")
-wide_raw <- fread("data/0710_como_network_out.csv")
+wide_raw <- fread("") #Private data
 
 head(wide_raw)
 ```
